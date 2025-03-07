@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from "react";
+import "./App.css";
+import { chartVega } from "venn-helper";
+import embed from "vega-embed";
+
+const sets = [
+  { sets: ["A"], size: 12 },
+  { sets: ["B"], size: 12 },
+  { sets: ["C"], size: 12 },
+  { sets: ["A", "B"], size: 4 },
+  { sets: ["A", "C"], size: 4 },
+  { sets: ["B", "C"], size: 4 },
+  { sets: ["A", "B", "C"], size: 2 },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  function renderChart(ref: HTMLDivElement | null) {
+    if (!ref) return;
+
+    const chart = chartVega(sets, {
+      width: 600,
+      height: 350,
+      padding: 16,
+      orientation: Math.PI / 2,
+      normalize: true,
+    });
+
+    embed(ref, chart.schema);
+  }
+
+  useEffect(() => {});
+
+  return <div ref={renderChart}></div>;
 }
 
-export default App
+export default App;
