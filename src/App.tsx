@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./App.css";
 import { chartVega } from "venn-helper";
 import embed from "vega-embed";
@@ -14,7 +13,6 @@ const sets = [
 ];
 
 function App() {
-
   function renderChart(ref: HTMLDivElement | null) {
     if (!ref) return;
 
@@ -22,16 +20,14 @@ function App() {
       width: 600,
       height: 350,
       padding: 16,
-      orientation: Math.PI / 2,
+      orientation: -Math.PI / 2,
       normalize: true,
     });
 
-    embed(ref, chart.schema);
+    embed(ref, chart.schema).then((res) => console.log(res));
   }
 
-  useEffect(() => {});
-
-  return <div ref={renderChart}></div>;
+  return <div ref={renderChart} />
 }
 
 export default App;
